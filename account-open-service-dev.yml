@@ -1,0 +1,20 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: account-open-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/account_open_service_dev
+    username: root
+    password: Rishikumar12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

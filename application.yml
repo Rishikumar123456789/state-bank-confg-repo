@@ -1,0 +1,42 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.cloud: INFO
+
+spring:
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      indent_output: true
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 5s
+
+info:
+  app:
+    name: State Bank Microservices
+    version: 1.0.0
