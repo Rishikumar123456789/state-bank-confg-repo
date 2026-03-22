@@ -1,0 +1,66 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      routes:
+        - id: account-open-service
+          uri: lb://ACCOUNT-OPEN-SERVICE
+          predicates:
+            - Path=/account/**
+          filters:
+            - StripPrefix=1
+
+        - id: deposit-service
+          uri: lb://DEPOSIT-SERVICE
+          predicates:
+            - Path=/deposit/**
+          filters:
+            - StripPrefix=1
+
+        - id: balance-check-service
+          uri: lb://BALANCE-CHECK-SERVICE
+          predicates:
+            - Path=/balance/**
+          filters:
+            - StripPrefix=1
+
+        - id: withdraw-service
+          uri: lb://WITHDRAW-SERVICE
+          predicates:
+            - Path=/withdraw/**
+          filters:
+            - StripPrefix=1
+
+      default-filters:
+        - AddResponseHeader=X-Gateway, SBI-Gateway
+        - AddRequestHeader=X-Request-Source, API-Gateway
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders: "*"
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
